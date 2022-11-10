@@ -1,0 +1,65 @@
+
+# Frist step is the calculation of the process indicators to be predicted
+
+# Concerning the type of prediction, we can classify the existing prediction types into three main macro-categories:
+
+# 1. predictions related to numeric or continuous measures of interest (numeric predictions). Typical examples in this configuration are predictions related to the *remaining time* of an ongoing execution and predictions related to the *duration* of an ongoing case or to its *cost*;
+# 2. predictions related to categorical or boolean outcomes (categorical predictions). Typical examples in this configuration are predictions related to the class of risk of a given execution or to the outcome of a predicate along the lifecycle of a case;
+# 3. predictions related to sequences of future activities (activity sequence predictions). Typical examples of predictions falling under this category refer to the prediction of the sequence of the future activities (and of their payload) of a process case upon its completion.
+
+
+
+
+# prefix and create indicators with prefix eventlog
+
+create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="activity"){
+  if(!require(dplyr)){
+    install.packages("dplyr")
+  }
+  if(!require(bupaR)){
+    install.packages("bupaR")
+  }
+  emap <- mapping(eventLog)
+
+  if(mode == "activity"){
+    label <-  eventLog %>%
+      group_by_case() %>% slice_events((prefix_num+1)) %>%
+      ungroup_eventlog() %>% select(emap[["case_identifier"]],emap[["activity_identifier"]],force_df = TRUE)
+
+    label <- rename(label,predictor = emap[["activity_identifier"]])
+  }else if(mode == "duration"){
+    label <- eventLog  %>% throughput_time(level = "case",units = "hours")
+    label <- rename(label,predictor = throughput_time)
+
+  }
+  emap <- mapping(eventLog)
+  case_id <- eventLog %>% case_id()
+
+  eventLog_prefix <- eventLog %>% group_by(across(all_of(case_id))) %>% first_n(prefix_num) %>% ungroup_eventlog()
+
+  return(eventLog_prefix)
+}
+
+# prefix_eventlog <- create_process_indicators_with_prefix(patients)
+
+
+
+# enrich data
+
+# 1. idle_time
+#
+
+enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
+
+  prefix_eventLog <- prefix(eventLog,prefix_num,mode)
+  # time perspective
+  prefix_eventLog <- prefix_eventLog %>% idle_time(level = "case",units = "hours") %>% edeaR::augment(prefix_eventLog)
+  prefix_eventLog <- prefix_eventLog %>% processing_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
+  prefix_eventLog <- prefix_eventLog %>% throughput_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
+  # patients %>% group_by_case() %>% summarise(last(time)-first(time))
+
+  return(prefix_eventLog)
+}
+
+
+

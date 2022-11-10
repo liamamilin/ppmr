@@ -1,11 +1,29 @@
 Package: ppmr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Predictive process monitoring
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Lin Mi <15527504293@163.com> [cre]
+Maintainer: Lin Mi <15527504293@163.com>
+Description: A Framework of Predictive Process monitoring 
+License: MIT
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    dplyr,
+    tidyverse,
+    tidymodels,
+    bupaR,
+    cluster,
+    daqapo,
+    edeaR,
+    eventdataR,
+    heuristicsmineR,
+    reticulate,
+    processanimateR,
+    processcheckR,
+    processmapR,
+    processmonitR,
+    petrinetR,
+    xesreadR
+Depends: 
+
