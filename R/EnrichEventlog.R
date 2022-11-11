@@ -36,6 +36,7 @@ create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="
   case_id <- eventLog %>% case_id()
 
   eventLog_prefix <- eventLog %>% group_by(across(all_of(case_id))) %>% first_n(prefix_num) %>% ungroup_eventlog()
+  eventLog_prefix <- eventLog_prefix %>% left_join(label,by = case_id)
 
   return(eventLog_prefix)
 }
@@ -46,20 +47,28 @@ create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="
 
 # enrich data
 
-# 1. idle_time
-#
+# 1. time perspective
+# 2. resource perspective
+# 3. data flow perspective data flow 由于太过于宽泛，
+# 4. Conformance perspective  暂时不加入
+
+# 目前提供两个角度的enrich data
 
 enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
+  require(edeaR)
 
-  prefix_eventLog <- prefix(eventLog,prefix_num,mode)
+  prefix_eventLog <- create_process_indicators_with_prefix(eventLog,prefix_num,mode)
   # time perspective
   prefix_eventLog <- prefix_eventLog %>% idle_time(level = "case",units = "hours") %>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% processing_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% throughput_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
-  # patients %>% group_by_case() %>% summarise(last(time)-first(time))
+  # resource
+  prefix_eventLog <- prefix_eventLog %>% resource_frequency(level = "case")%>% edeaR::augment(prefix_eventLog)
+  prefix_eventLog <- prefix_eventLog %>% resource_involvement(level = "case")%>% edeaR::augment(prefix_eventLog)
+
 
   return(prefix_eventLog)
 }
 
-
+# erichData <- enrichEventlog(patients,prefix_num = 5)
 

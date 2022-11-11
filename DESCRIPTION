@@ -24,6 +24,5 @@ Imports:
     processmapR,
     processmonitR,
     petrinetR,
-    xesreadR
-Depends: 
-
+    xesreadR,
+    mltools
