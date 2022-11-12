@@ -7,19 +7,20 @@
 # 2. predictions related to categorical or boolean outcomes (categorical predictions). Typical examples in this configuration are predictions related to the class of risk of a given execution or to the outcome of a predicate along the lifecycle of a case;
 # 3. predictions related to sequences of future activities (activity sequence predictions). Typical examples of predictions falling under this category refer to the prediction of the sequence of the future activities (and of their payload) of a process case upon its completion.
 
-
+# dataset :sepsis,patients,traffic_fines,hospital,hospital_billing
 
 
 # prefix and create indicators with prefix eventlog
 
-create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="activity"){
-  if(!require(dplyr)){
-    install.packages("dplyr")
-  }
-  if(!require(bupaR)){
-    install.packages("bupaR")
-  }
+createProcessIndicatorsWithPrefix <- function(eventLog,prefix_num = 5,mode="activity"){
+  # if(!require(dplyr)){
+  #   install.packages("dplyr")
+  # }
+  # if(!require(bupaR)){
+  #   install.packages("bupaR")
+  # }
   emap <- mapping(eventLog)
+  # if predictor is null, it is mean some trace length is shorter than prfix_num
 
   if(mode == "activity"){
     label <-  eventLog %>%
@@ -41,7 +42,9 @@ create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="
   return(eventLog_prefix)
 }
 
-# prefix_eventlog <- create_process_indicators_with_prefix(patients)
+# prefix_eventLog <- createProcessIndicatorsWithPrefix(patients)
+
+# prefix_eventLog <- createProcessIndicatorsWithPrefix(hospital)
 
 
 
@@ -57,7 +60,7 @@ create_process_indicators_with_prefix <- function(eventLog,prefix_num = 5,mode="
 enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
   require(edeaR)
 
-  prefix_eventLog <- create_process_indicators_with_prefix(eventLog,prefix_num,mode)
+  prefix_eventLog <- createProcessIndicatorsWithPrefix(eventLog,prefix_num,mode)
   # time perspective
   prefix_eventLog <- prefix_eventLog %>% idle_time(level = "case",units = "hours") %>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% processing_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
@@ -71,4 +74,4 @@ enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
 }
 
 # erichData <- enrichEventlog(patients,prefix_num = 5)
-
+# erichData <- enrichEventlog(hospital,prefix_num = 5)

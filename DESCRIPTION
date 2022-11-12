@@ -25,4 +25,5 @@ Imports:
     processmonitR,
     petrinetR,
     xesreadR,
-    mltools
+    mltools,
+    stringdist

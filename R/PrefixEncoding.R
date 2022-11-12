@@ -6,13 +6,13 @@
 # 5. window encoding ： 根据窗口大小将一个trace 分解成为多个(这是另外一种方法，不需要prefix)
 
 # 1. Last state encoding
-lastStateEncoding <- function(prefix_eventLog,m){
+lastStateEncoding <- function(prefix_eventLog){
   encoding_envetlog <- prefix_eventLog %>% group_by_case() %>% last_n(1)
   lifecyle_ID <- encoding_envetlog %>% lifecycle_id()
-  lc <- encoding_envetlog %>% select((lifecyle_ID),force_df = TRUE) %>% pull()
+  lc <- encoding_envetlog %>% select(all_of(lifecyle_ID),force_df = TRUE) %>% pull()
 
   if(all(is.na(lc))){
-    message("lifecycle_id is NA")
+    stop("lifecycle_id is NA")
   }else{
     encoding_envetlog <- encoding_envetlog %>% filter(across(all_of(lifecyle_ID))=="complete")
   }
@@ -21,6 +21,8 @@ lastStateEncoding <- function(prefix_eventLog,m){
   return(encoding_envetlog)
 }
 
+
+# ld <- lastStateEncoding(erichData)
 
 
 # 2. Last M state encoding
@@ -110,7 +112,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 
 # x <- lastNStateIndexBasedEncoding(erichData)
 # x.1 <- lastNStateIndexBasedEncoding(prefix_eventlog)
-
+# ld <- lastNStateIndexBasedEncoding(erichData)
 
 # 3. aggregation encoding
 
@@ -126,7 +128,7 @@ aggregation_encoding <-  function(prefix_eventLog){
   lc <- prefix_eventLog %>% select((all_of(lifecyle_ID)),force_df = TRUE) %>% pull()
 
   if(all(is.na(lc))){
-    encoding_envetlog <- prefix_eventLog %>% group_by_case() %>% last_n(Window)
+    stop("lifecycle_id is NA")
   }else{
     encoding_envetlog <- prefix_eventLog  %>% filter(across(all_of(lifecyle_ID))=="complete") %>% group_by_case() %>% last_n(Window)
   }
@@ -163,5 +165,5 @@ aggregation_encoding <-  function(prefix_eventLog){
 
 }
 
-
-
+# x.2 <- aggregation_encoding(erichData)
+# ld <- aggregation_encoding(erichData)
