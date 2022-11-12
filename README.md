@@ -61,11 +61,17 @@ names(eventdata)
 
 Implemented three type of encoding method.
 
+1. Last state encoding
+2. Last M State Index Based Encoding
+3. aggregation encoding
+
 ```
 enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
 ```
 
 # Bucketing Event Log
+
+Implemented Cluster Bucketing method.
 
 ```
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
