@@ -2,23 +2,23 @@
 % Please edit documentation in R/EnrichEventlog.R
 \name{enrichEventlog}
 \alias{enrichEventlog}
-\title{enrich evenlog}
+\title{Enrich Evenlog}
 \usage{
 enrichEventlog(eventLog, prefix_num, mode = "activity")
 }
 \arguments{
-\item{eventLog}{A event log which class is eventlog from bupaR}
+\item{eventLog}{A event log which class is eventlog from bupaR.}
 
-\item{prefix_num}{prefix length of trace}
+\item{prefix_num}{prefix length of trace.}
 
-\item{mode}{create indicators,for now，have two option :activity or duration}
+\item{mode}{create indicators,for now，have two option :activity or duration.}
 }
 \value{
-event log with prefix , indicators and new feature
+event log with prefix , indicators and new feature.
 }
 \description{
-this function create new feature for predicting .for now only consider two perspectivetime perspective and resource perspective.
-new feature include:idle time,processing time,throughput time,resource frequency,resource involvement
+This function create new feature for predicting.For now only consider two perspective:time perspective and resource perspective.
+New feature include:idle time,processing time,throughput time,resource frequency,resource involvement.
 }
 \examples{
 library(bupar)

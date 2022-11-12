@@ -2,25 +2,25 @@
 % Please edit documentation in R/EnrichEventlog.R
 \name{createProcessIndicatorsWithPrefix}
 \alias{createProcessIndicatorsWithPrefix}
-\title{prefix and create indicators  for evnetlog}
+\title{Prefix And Create Indicators  For Evnetlog}
 \usage{
 createProcessIndicatorsWithPrefix(eventLog, prefix_num = 5, mode = "activity")
 }
 \arguments{
-\item{eventLog}{A event log which class is eventlog from bupaR}
+\item{eventLog}{A event log which class is eventlog from bupaR.}
 
-\item{prefix_num}{prefix length of trace}
+\item{prefix_num}{Prefix length of trace.}
 
-\item{mode}{create indicators,for now，have two option :activity or duration}
+\item{mode}{Create indicators,for now，have two option :activity or duration.}
 }
 \value{
-event log with prefix and indicators
+Event log with prefix and indicators.
 }
 \description{
-this function transform original event log to prefix event log and create indicators for predicting
+This function transform original event log to prefix event log and create indicators for predicting.
 }
 \examples{
 library(bupar)
 library(ppmr)
-eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+eventdata <- createProcessIndicatorsWithPrefix(eventLog = patients,prefix_num = 4,mode = "activity")
 }
