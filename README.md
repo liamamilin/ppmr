@@ -196,7 +196,7 @@ result[[1]]
 plot(result[[1]])
 ```
 
-![](/Users/milin/ppmr/ip.png)
+![](https://github.com/liamamilin/ppmr/blob/main/ip.png)
 
 ```
 result[[2]]
@@ -300,4 +300,4 @@ workflow.Triage and Assessment: prediction                                0.000
 plot(result[[2]])
 ```
 
-![](/Users/milin/ppmr/Rplot.png)
+![](https://github.com/liamamilin/ppmr/blob/main/Rplot.png)
