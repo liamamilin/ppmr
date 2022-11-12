@@ -75,7 +75,11 @@ Implemented Cluster Bucketing method.
 
 ```
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+```
 
+Gap Statistic for Estimating the Number of Clusters
+
+```
 clusternum <- optimalNumberOfCluster(prefix_eventLog = eventdata,max_cluster_num=5,B=100)
 
 clusternum
