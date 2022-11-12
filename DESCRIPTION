@@ -26,4 +26,8 @@ Imports:
     petrinetR,
     xesreadR,
     mltools,
-    stringdist
+    stringdist,
+    DALEXtra,
+    ingredients,
+    iBreakDown
+RoxygenNote: 7.2.1

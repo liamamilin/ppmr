@@ -5,8 +5,24 @@
 
 # 5. window encoding ： 根据窗口大小将一个trace 分解成为多个(这是另外一种方法，不需要prefix)
 
+
+
+
 # 1. Last state encoding
+
+#' Last State Encoding
+#' @description In this encoding method, only the last available snapshot of the data is used.
+#' @param eventLog A event log with prefix.
+#' @return  event log with encoding.
+#' @examples
+#' library(bupar)
+#' library(ppmr)
+#' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+#' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
+
 lastStateEncoding <- function(prefix_eventLog){
+  require(bupaR)
+  require(dplyr)
   encoding_envetlog <- prefix_eventLog %>% group_by_case() %>% last_n(1)
   lifecyle_ID <- encoding_envetlog %>% lifecycle_id()
   lc <- encoding_envetlog %>% select(all_of(lifecyle_ID),force_df = TRUE) %>% pull()
@@ -22,11 +38,23 @@ lastStateEncoding <- function(prefix_eventLog){
 }
 
 
-# ld <- lastStateEncoding(erichData)
 
+# 2. Last M State Encoding
 
-# 2. Last M state encoding
+#' Last M State Index Based Encoding
+#' @description The last M available snapshot of the data is used ,And The idea of indexbased encoding is to use all possible information (including the order) in the trace, generating one feature per each event attribute per each executed event (each index).
+#' @param eventLog A event log with prefix.
+#' @param Window The Window length of Trace.
+#' @return  event log with encoding.
+#' @examples
+#' library(bupar)
+#' library(ppmr)
+#' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+#' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,,Window=3)
+
 lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
+  require(dplyr)
+  require(bupaR)
 
   if(Window >(trace_length(prefix_eventLog)$max)){
     stop("wrong window parameters")
@@ -110,13 +138,21 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 
 }
 
-# x <- lastNStateIndexBasedEncoding(erichData)
-# x.1 <- lastNStateIndexBasedEncoding(prefix_eventlog)
-# ld <- lastNStateIndexBasedEncoding(erichData)
 
 # 3. aggregation encoding
 
 
+#' Aggregation Encoding
+#' @description Aggregation encoding. In contrast to the last-state encoding, aggregation encoding considers all events in the prefix of a case, rather than considering only the last m events. Each attribute is encoded into one or multiple features using different aggregation functions depending on the datatype of the attribute.
+#' If an attribute is of numerical type then we map this attribute into one feature by means of a numerical aggregation function such as sum, average, minimum, or maximum.
+#' f an attribute is categorical we map this attribute into one feature for every value in the attribute’s domain by applying the “count” aggregation function.
+#' @param eventLog A event log with prefix.
+#' @return  event log with encoding.
+#' @examples
+#' library(bupar)
+#' library(ppmr)
+#' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+#' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,,Window=3)
 
 aggregation_encoding <-  function(prefix_eventLog){
   require(caret)
@@ -130,7 +166,7 @@ aggregation_encoding <-  function(prefix_eventLog){
   if(all(is.na(lc))){
     stop("lifecycle_id is NA")
   }else{
-    encoding_envetlog <- prefix_eventLog  %>% filter(across(all_of(lifecyle_ID))=="complete") %>% group_by_case() %>% last_n(Window)
+    encoding_envetlog <- prefix_eventLog  %>% filter(across(all_of(lifecyle_ID))=="complete")
   }
   Map <- mapping(encoding_envetlog)
   encoding_envetlog <- encoding_envetlog %>% data.frame()
@@ -139,7 +175,7 @@ aggregation_encoding <-  function(prefix_eventLog){
 
   traceData <- encoding_envetlog %>%
     select(Map[["case_identifier"]],
-           Map[["activity_identifier"]])
+           Map[["activity_identifier"]],where(is.factor)) %>% select(-predictor,-Map[["lifecycle_identifier"]])
   formu <- formula(paste("~",Map[["activity_identifier"]],sep=""))
 
   dummy <- dummyVars(formu, data=traceData)
@@ -165,5 +201,3 @@ aggregation_encoding <-  function(prefix_eventLog){
 
 }
 
-# x.2 <- aggregation_encoding(erichData)
-# ld <- aggregation_encoding(erichData)
