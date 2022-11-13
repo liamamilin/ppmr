@@ -75,6 +75,8 @@ Implemented Cluster Bucketing method.
 
 ```
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
+enrichEventlogEncoding <- KMmeanclusterBucketing(prefix_eventLog = eventdata)
+
 ```
 
 Gap Statistic for Estimating the Number of Clusters
