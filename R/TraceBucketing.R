@@ -1,3 +1,6 @@
+# 优化的点：1. 更多的enrich 数据的方法。2. 不同的encoding data 的方法 3. bucketing 4. 聚类分开预测的方法。
+
+
 # Hello, world!
 #
 # This is an example function named 'hello'

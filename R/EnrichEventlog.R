@@ -36,17 +36,17 @@ createProcessIndicatorsWithPrefix <- function(eventLog,prefix_num = 5,mode="acti
   require(dplyr)
   require(bupaR)
   emap <- mapping(eventLog)
-  # if predictor is null, it is mean some trace length is shorter than prfix_num
+  # if predicate is null, it is mean some trace length is shorter than prfix_num
 
   if(mode == "activity"){
     label <-  eventLog %>%
       group_by_case() %>% slice_events((prefix_num+1)) %>%
       ungroup_eventlog() %>% select(emap[["case_identifier"]],emap[["activity_identifier"]],force_df = TRUE)
 
-    label <- rename(label,predictor = emap[["activity_identifier"]])
+    label <- rename(label,predicate = emap[["activity_identifier"]])
   }else if(mode == "duration"){
     label <- eventLog  %>% throughput_time(level = "case",units = "hours")
-    label <- rename(label,predictor = throughput_time)
+    label <- rename(label,predicate = throughput_time)
 
   }
   emap <- mapping(eventLog)
@@ -84,7 +84,7 @@ createProcessIndicatorsWithPrefix <- function(eventLog,prefix_num = 5,mode="acti
 
 enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
   require(edeaR)
-  require(tidyverse)
+  require(dplyr)
 
   prefix_eventLog <- createProcessIndicatorsWithPrefix(eventLog,prefix_num,mode)
   # time perspective
@@ -92,7 +92,7 @@ enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
   prefix_eventLog <- prefix_eventLog %>% processing_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% throughput_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
   # resource
-  prefix_eventLog <- prefix_eventLog %>% resource_frequency(level = "case")%>% edeaR::augment(prefix_eventLog)
+  #prefix_eventLog <- prefix_eventLog %>% resource_frequency(level = "case")%>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% resource_involvement(level = "case")%>% edeaR::augment(prefix_eventLog)
 
 

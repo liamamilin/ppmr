@@ -175,7 +175,7 @@ aggregation_encoding <-  function(prefix_eventLog){
 
   traceData <- encoding_envetlog %>%
     select(Map[["case_identifier"]],
-           Map[["activity_identifier"]],where(is.factor)) %>% select(-predictor,-Map[["lifecycle_identifier"]])
+           Map[["activity_identifier"]],where(is.factor)) %>% select(-predicate,-Map[["lifecycle_identifier"]])
   formu <- formula(paste("~",Map[["activity_identifier"]],sep=""))
 
   dummy <- dummyVars(formu, data=traceData)
@@ -195,7 +195,7 @@ aggregation_encoding <-  function(prefix_eventLog){
   other_data <- rename(other_data,case_id = Map[["case_identifier"]])
 
   result <- newdata %>% left_join(other_data,by="case_id") %>%
-    left_join((encoding_envetlog %>% select(Map[["case_identifier"]],predictor)),by = c("case_id" = Map[["case_identifier"]]))
+    left_join((encoding_envetlog %>% select(Map[["case_identifier"]],predicate)),by = c("case_id" = Map[["case_identifier"]]))
 
   return(list(dummy,result))
 

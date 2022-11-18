@@ -30,8 +30,8 @@
 #' library(lubridate)
 #' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% mutate(year=year(time),month=month(time),day = day(time),week = week(time),hour = hour(time))
 #' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% select(-time)
-#' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% filter(!is.na(predictor))
-#' enrichEventlogEncoding.1$predictor <- enrichEventlogEncoding.1$predictor %>% as.character() %>% as.factor()
+#' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% filter(!is.na(predicate))
+#' enrichEventlogEncoding.1$predicate <- enrichEventlogEncoding.1$predicate %>% as.character() %>% as.factor()
 #' EventLogModel <- BuildModel(TheModel = rand_forest,engine = "ranger",PrefixData = enrichEventlogEncoding.1,predictmode = "classification")
 #' pre <- predict(object = EventLogModel[[3]], EventLogModel[["test"]],type = "class")
 
@@ -56,8 +56,8 @@ BuildModel <- function(TheModel=rand_forest,engine="ranger",PrefixData,predictmo
   test_data  <- testing(data_split)
 
 
-  dataRecipe <- recipe(predictor~ ., data = train_data) %>%
-    step_zv(all_predictors()) %>%
+  dataRecipe <- recipe(predicate~ ., data = train_data) %>%
+    step_zv(all_predicates()) %>%
     step_naomit()
 
 
