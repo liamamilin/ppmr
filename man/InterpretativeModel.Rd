@@ -2,7 +2,7 @@
 % Please edit documentation in R/InterpretativeModel.R
 \name{InterpretativeModel}
 \alias{InterpretativeModel}
-\title{Interpretative Model}
+\title{Interpret Model}
 \usage{
 InterpretativeModel(ModelResult, traindata, trainlabel, newdata = NULL)
 }
@@ -19,7 +19,7 @@ InterpretativeModel(ModelResult, traindata, trainlabel, newdata = NULL)
 Return the interpretation of Model.
 }
 \description{
-Interpretative Model,This function is base on DALEXtra packages.
+Interpret Model,This function is base on DALEXtra packages.
 }
 \examples{
 library(bupaR)

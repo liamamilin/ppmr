@@ -1,8 +1,8 @@
-# Interpretative_model
+# Interpret_model
 
 
-#' Interpretative Model
-#' @description Interpretative Model,This function is base on DALEXtra packages.
+#' Interpret Model
+#' @description Interpret Model,This function is base on DALEXtra packages.
 #' @param ModelResult Model result.
 #' @param train  Train data without lablee.
 #' @param trainlabel Lable of train dataset .
