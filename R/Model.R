@@ -57,7 +57,7 @@ BuildModel <- function(TheModel=rand_forest,engine="ranger",PrefixData,predictmo
 
 
   dataRecipe <- recipe(predicate~ ., data = train_data) %>%
-    step_zv(all_predicates()) %>%
+    step_zv(all_predictors()) %>%
     step_naomit()
 
 
