@@ -41,7 +41,7 @@ InterpretativeModel <- function(ModelResult,traindata,trainlabel,
 
     # BD plot
 
-    sp_rf <- predict_parts(expmodel,new_observation = newdata)
+    sp_rf <- predict_parts(expmodel,new_observation = newdata,type = "break_down")
 
 
     # Ceteris-paribus Profiles
