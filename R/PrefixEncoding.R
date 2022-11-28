@@ -15,7 +15,7 @@
 #' @param eventLog A event log with prefix.
 #' @return  event log with encoding.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
@@ -39,15 +39,15 @@ lastStateEncoding <- function(prefix_eventLog){
 
 
 
-# 2. Last M State Encoding
+# 2. Last N State Encoding
 
-#' Last M State Index Based Encoding
+#' Last N State Index Based Encoding
 #' @description The last M available snapshot of the data is used ,And The idea of indexbased encoding is to use all possible information (including the order) in the trace, generating one feature per each event attribute per each executed event (each index).
 #' @param eventLog A event log with prefix.
 #' @param Window The Window length of Trace.
 #' @return  event log with encoding.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,,Window=3)
@@ -149,7 +149,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 #' @param eventLog A event log with prefix.
 #' @return  event log with encoding.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,,Window=3)

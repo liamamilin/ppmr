@@ -50,7 +50,7 @@
 #' @param cluster_num Cluster number.
 #' @return  event log with Cluster label
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- KMmeanclusterBucketing(prefix_eventLog = eventdata)
@@ -110,7 +110,7 @@ KMmeanclusterBucketing <- function(prefix_eventLog,
 #' @param cluster_num Cluster number.
 #' @return  event log with Cluster label
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- hierarchicalClusteringBucketing(prefix_eventLog = eventdata)
@@ -173,7 +173,7 @@ hierarchicalClusteringBucketing <- function(prefix_eventLog,
 #' @param max_cluster_num Max cluster number.
 #' @return  The number of cluster.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' clusternum <- optimalNumberOfCluster(prefix_eventLog = eventdata,max_cluster_num=5,B=100)
