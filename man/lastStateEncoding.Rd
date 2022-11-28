@@ -16,7 +16,7 @@ event log with encoding.
 In this encoding method, only the last available snapshot of the data is used.
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)

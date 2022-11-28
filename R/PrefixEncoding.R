@@ -50,7 +50,7 @@ lastStateEncoding <- function(prefix_eventLog){
 #' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
-#' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,,Window=3)
+#' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,Window=3)
 
 lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
   require(dplyr)
@@ -152,7 +152,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 #' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
-#' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,,Window=3)
+#' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,Window=3)
 
 aggregation_encoding <-  function(prefix_eventLog){
   require(caret)

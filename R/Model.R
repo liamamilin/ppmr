@@ -21,7 +21,7 @@
 #' @param predictmode Type of model,regression or classification.
 #' @return  Return A list about train dataset,test dataset and model result.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)

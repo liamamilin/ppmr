@@ -2,7 +2,7 @@
 % Please edit documentation in R/PrefixEncoding.R
 \name{lastNStateIndexBasedEncoding}
 \alias{lastNStateIndexBasedEncoding}
-\title{Last M State Index Based Encoding}
+\title{Last N State Index Based Encoding}
 \usage{
 lastNStateIndexBasedEncoding(prefix_eventLog, Window = 3)
 }
@@ -18,8 +18,8 @@ event log with encoding.
 The last M available snapshot of the data is used ,And The idea of indexbased encoding is to use all possible information (including the order) in the trace, generating one feature per each event attribute per each executed event (each index).
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
-enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,,Window=3)
+enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,Window=3)
 }

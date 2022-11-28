@@ -22,7 +22,7 @@ Return the interpretation of Model.
 Interpretative Model,This function is base on DALEXtra packages.
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
@@ -31,9 +31,9 @@ enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% select(-patient,-hand
 library(lubridate)
 enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% mutate(year=year(time),month=month(time),day = day(time),week = week(time),hour = hour(time))
 enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% select(-time)
-enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% filter(!is.na(predictor))
-enrichEventlogEncoding.1$predictor <- enrichEventlogEncoding.1$predictor \%>\% as.character() \%>\% as.factor()
+enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% filter(!is.na(predicate))
+enrichEventlogEncoding.1$predicate <- enrichEventlogEncoding.1$predicate \%>\% as.character() \%>\% as.factor()
 EventLogModel <- BuildModel(TheModel = rand_forest,engine = "ranger",PrefixData = enrichEventlogEncoding.1,predictmode = "classification")
-pre <- predict(object = x[[3]], x[["test"]],type = "class")
+pre <- predict(object = EventLogModel[[3]], EventLogModel[["test"]],type = "class")
 result <- InterpretativeModel(ModelResult = EventLogModel[[3]],traindata=EventLogModel[[1]][,-3],trainlabel = EventLogModel[[1]][,3],newdata = EventLogModel[[2]][1,])
 }

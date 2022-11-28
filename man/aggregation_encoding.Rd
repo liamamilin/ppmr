@@ -18,8 +18,8 @@ If an attribute is of numerical type then we map this attribute into one feature
 f an attribute is categorical we map this attribute into one feature for every value in the attribute’s domain by applying the “count” aggregation function.
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
-enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,,Window=3)
+enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata,Window=3)
 }

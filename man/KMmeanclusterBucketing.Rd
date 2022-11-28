@@ -28,7 +28,7 @@ event log with Cluster label
 Cluster trace by Kmeans Cluster.
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 enrichEventlogEncoding <- KMmeanclusterBucketing(prefix_eventLog = eventdata)

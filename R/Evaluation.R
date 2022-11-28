@@ -20,7 +20,7 @@
 #' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% filter(!is.na(predicate))
 #' enrichEventlogEncoding.1$predicate <- enrichEventlogEncoding.1$predicate %>% as.character() %>% as.factor()
 #' EventLogModel <- BuildModel(TheModel = rand_forest,engine = "ranger",PrefixData = enrichEventlogEncoding.1,predictmode = "classification")
-#' pre <- predict(object = x[[3]], x[["test"]],type = "class")
+#' pre <- predict(object = EventLogModel[[3]], EventLogModel[["test"]],type = "class")
 #' result <- evaluateModel(ModelResult = EventLogModel[[3]],train = EventLogModel[[1]],test = EventLogModel[[2]],predictmode = "classification"
 
 evaluateModel <- function(ModelResult,train,test,predictmode="regression"){
@@ -93,7 +93,7 @@ evaluateModel <- function(ModelResult,train,test,predictmode="regression"){
     test_result[4] <- spec(testing_pred,predicate,.pred_class)[[3]]
     test_result[5] <- f_meas(testing_pred,predicate,.pred_class)[[3]]
 
-    return(list(train_result,test_result))
+    return(list(train=train_result,test=test_result))
 
   }
 

@@ -27,7 +27,7 @@ Return A list about train dataset,test dataset and model result.
 Build all kind of regression and classification model.This function is base on Tidymodel package.
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
@@ -36,8 +36,8 @@ enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% select(-patient,-hand
 library(lubridate)
 enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% mutate(year=year(time),month=month(time),day = day(time),week = week(time),hour = hour(time))
 enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% select(-time)
-enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% filter(!is.na(predictor))
-enrichEventlogEncoding.1$predictor <- enrichEventlogEncoding.1$predictor \%>\% as.character() \%>\% as.factor()
+enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 \%>\% filter(!is.na(predicate))
+enrichEventlogEncoding.1$predicate <- enrichEventlogEncoding.1$predicate \%>\% as.character() \%>\% as.factor()
 EventLogModel <- BuildModel(TheModel = rand_forest,engine = "ranger",PrefixData = enrichEventlogEncoding.1,predictmode = "classification")
 pre <- predict(object = EventLogModel[[3]], EventLogModel[["test"]],type = "class")
 }

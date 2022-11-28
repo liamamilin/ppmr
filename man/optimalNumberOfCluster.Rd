@@ -28,7 +28,7 @@ The number of cluster.
 Use gap statistic to estimating the number of clusters
 }
 \examples{
-library(bupar)
+library(bupaR)
 library(ppmr)
 eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 clusternum <- optimalNumberOfCluster(prefix_eventLog = eventdata,max_cluster_num=5,B=100)

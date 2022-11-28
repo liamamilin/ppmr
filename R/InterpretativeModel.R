@@ -9,7 +9,7 @@
 #' @param newdata one slice data.
 #' @return  Return the interpretation of Model.
 #' @examples
-#' library(bupar)
+#' library(bupaR)
 #' library(ppmr)
 #' eventdata <- enrichEventlog(eventLog = patients,prefix_num = 4,mode = "activity")
 #' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
@@ -21,7 +21,7 @@
 #' enrichEventlogEncoding.1 <- enrichEventlogEncoding.1 %>% filter(!is.na(predicate))
 #' enrichEventlogEncoding.1$predicate <- enrichEventlogEncoding.1$predicate %>% as.character() %>% as.factor()
 #' EventLogModel <- BuildModel(TheModel = rand_forest,engine = "ranger",PrefixData = enrichEventlogEncoding.1,predictmode = "classification")
-#' pre <- predict(object = x[[3]], x[["test"]],type = "class")
+#' pre <- predict(object = EventLogModel[[3]], EventLogModel[["test"]],type = "class")
 #' result <- InterpretativeModel(ModelResult = EventLogModel[[3]],traindata=EventLogModel[[1]][,-3],trainlabel = EventLogModel[[1]][,3],newdata = EventLogModel[[2]][1,])
 
 
@@ -32,26 +32,35 @@ InterpretativeModel <- function(ModelResult,traindata,trainlabel,
   require(iBreakDown)
 
 
-  # vr_age  <- model_profile(expmodel,variables = var)
-  # plot(vr_age)
-
   if(!is.null(newdata)){
 
     expmodel <- explain_tidymodels(ModelResult,traindata,trainlabel)
 
     imp <- model_parts(expmodel)
-    imp
-    plot(imp)
+
+
+    # BD plot
 
     sp_rf <- predict_parts(expmodel,new_observation = newdata)
-    sp_rf
-    plot(sp_rf)
 
-    return(list(imp,sp_rf))
+
+    # Ceteris-paribus Profiles
+
+    cp_titanic_rf <- predict_profile(explainer = (expmodel),
+                                     new_observation = newdata)
+
+    # Ceteris-paribus Oscillations
+    bd_lm <- predict_parts(explainer = expmodel,
+                           new_observation = newdata,
+                           type = "oscillations_uni")
+
+    return(list(importance=imp,BDplot=sp_rf,Ceteris_paribus_Profiles=cp_titanic_rf,
+                Ceteris_paribus_Oscillations=bd_lm))
   }else{
     expmodel <- explain_tidymodels(ModelResult,traindata,trainlabel)
 
     imp <- model_parts(expmodel)
+    cat("feature importance")
     imp
     plot(imp)
 
