@@ -144,7 +144,7 @@ hierarchicalClusteringBucketing <- function(prefix_eventLog,
   expre_cluster <- parse(text=paste("str_cluster <- ",cluster_methods,"(","x=str_dist",...,")",sep = ""))
 
   eval(expre_cluster)
-  plot(str_cluster)
+  #plot(str_cluster)
   num_Cluster <- cutree(str_cluster,k = cluster_num)
 
   cluster_data <- data.frame(rownames(str_dist),num_Cluster)
@@ -203,7 +203,7 @@ optimalNumberOfCluster <- function(prefix_eventLog,cluster_methods="fanny",dist_
   Gap_num <- clusGap(str_dist, FUN =  get(cluster_methods), K.max = max_cluster_num,...) # 20
 
 
-  plot(Gap_num)
+  #plot(Gap_num)
 
 
 
