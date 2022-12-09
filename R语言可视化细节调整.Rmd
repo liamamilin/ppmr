@@ -1,0 +1,445 @@
+---
+title: "R语言数据可视化"
+author: "Liam"
+date: "2022-12-08"
+output: 
+    html_document:
+      toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+
+# 查看颜色
+
+
+有四种方法设置颜色:
+
+1. 英文字母
+2. 数字
+3. rgb
+4. 十六进制代码
+
+
+colors()函数查看可选颜色
+```{r}
+
+colors()[1:10] 
+```
+
+数字1代表的颜色是colors()[1]
+
+rgb函数同样可以创建函数
+```{r}
+x <- rgb(red = 0.1,green = 0.2,blue = 0.3)
+x
+library(plotrix)
+color.id(x)
+
+
+rainbow(7) # 彩虹
+```
+
+
+# 绘图配色
+
+## ggplot2 自带
+
+### hue
+
+```{r}
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+        
+p + scale_color_hue(h = c(180, 300))
+```
+
+
+### manual
+
+```{r}
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+        
+p + scale_color_manual(values=c("#69b3a2", "purple", "black"))
+```
+
+###  scale_color_grey 函数
+
+```{r}
+library(patchwork)
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+
+(p + scale_color_grey()) 
+
+```
+
+##  R Color Brewer
+
+```{r}
+library(RColorBrewer)
+par(mar=c(3,4,2,2))
+display.brewer.all() # 查看可选配色
+```
+
+```{r}
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+        
+p + scale_color_brewer(palette = "BuPu")
+```
+
+
+## Viridis
+
+可选：(A: magma; B: inferno; C: plasma; D: viridis; E: cividis; F: rocket; G: mako; H: turbo).
+
+```{r}
+library(viridis)
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+
+p + scale_color_viridis(discrete=TRUE, option="magma")
+
+```
+
+
+
+## 其他配色
+
+https://github.com/EmilHvitfeldt/r-color-palettes
+
+
+```{r}
+library(paletteer)
+library(nord)
+# install.packages("cartography")
+library(awtools)
+library(cartography)
+library(dutchmasters)
+p <- ggplot(iris,
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+  geom_point(size=6)
+        
+p1 <- p + scale_colour_paletteer_d("nord::aurora") # names(nord_palettes) 查看可选
+# devtools::install_github("awhstin/awtools")
+p2 <- p + scale_color_paletteer_d("awtools::bpalette") # bpalette
+
+
+p3 <- p + scale_color_paletteer_d("dutchmasters::milkmaid") # names(dutchmasters)
+
+
+p4 <- p + scale_color_paletteer_d("ggsci::nrc_npg")
+
+p1+p2+p3+p4
+```
+
+
+
+# colourpicker
+
+选择颜色
+```
+library(colourpicker)
+
+x <- colourPicker()
+```
+
+
+# 坐标轴
+
+1. theme() 函数修改外观
+2. scale_x_ 和 scale_y_ 修改坐标轴类型
+
+```{r}
+# Load ggplot2
+library(ggplot2)
+
+# Very basic chart
+basic <- ggplot( mtcars , aes(x=mpg, y=wt)) + 
+  geom_point()
+basic
+
+p1 <- basic+
+    xlab("mpg value") + 
+    xlim(0,50) # 修改坐标轴范围
+
+# 修改坐标轴标题
+p2 <- # Left -> both axis are modified
+basic + theme(axis.title = element_text( angle = 90, color="red", size=15, face=3)) # face = title location
+
+# Right -> only the x axis is modified
+p3 <- basic + theme(axis.title.x = element_text( angle = 90, color="red", size=15, face=3))
+
+basic+p1+p2+p3
+
+# 自定义坐标轴标签
+
+p4 <- basic + 
+  theme(axis.text = element_text( 
+    angle = 90, 
+    color="blue", 
+    size=15, 
+    face=3)
+  )
+
+# 自定义刻度和轴线
+
+p5 <- basic + theme(
+   axis.ticks = element_line(size = 2, color="red") , 
+   axis.ticks.length = unit(.5, "cm")
+)
+# chart 2: axis lines
+p6 <- basic + theme(axis.line = element_line(size = 3, colour = "green", linetype=2))
+# chart 3: combination
+
+p7 <- ggplot( mtcars , aes(x=mpg, y=wt)) + geom_point() +
+    theme(
+        axis.title = element_text( color="red", size=15, face=2),
+        axis.line = element_line(size = 3, colour = "green", linetype=2),
+        axis.text = element_text( angle = 90, color="blue", size=15, face=2)
+        )
+
+p4+p5+p6+p7
+```
+
+ 
+# 主题
+
+```{r}
+# library
+library(ggplot2)
+library(gridExtra)
+ 
+# create data
+set.seed(123)
+var=rnorm(1000)
+ 
+# Without theme
+plot1 <- qplot(var , fill=I(rgb(0.1,0.2,0.4,0.6)) )
+ 
+# With themes
+plot2 = plot1+theme_bw()+annotate("text", x = -1.9, y = 75, label = "bw()" , col="orange" , size=4)
+plot3 = plot1+theme_classic()+annotate("text", x = -1.9, y = 75, label = "classic()" , col="orange" , size=4)
+plot4 = plot1+theme_gray()+annotate("text", x = -1.9, y = 75, label = "gray()" , col="orange" , size=4)
+plot5 = plot1+theme_linedraw()+annotate("text", x = -1.9, y = 75, label = "linedraw()" , col="orange" , size=4)
+plot6 = plot1+theme_dark()+annotate("text", x = -1.9, y = 75, label = "dark()" , col="orange" , size=4)
+plot7 = plot1+theme_get()+annotate("text", x = -1.9, y = 75, label = "get()" , col="orange" , size=4)
+plot8 = plot1+theme_minimal()+annotate("text", x = -1.9, y = 75, label = "minimal()" , col="orange" , size=4)
+ 
+ 
+# Arrange and display the plots into a 2x1 grid
+grid.arrange(plot1,plot2,plot3,plot4, ncol=2)
+grid.arrange(plot5,plot6,plot7,plot8, ncol=2)
+```
+
+
+## ggthemes
+
+```{r}
+library(ggthemes)
+ 
+var=rnorm(1000)
+
+p <- qplot(var , fill=I(rgb(0.1,0.2,0.4,0.6)) )
+
+p1 <- p +ggthemes::theme_base() + ggtitle("theme_base")
+
+p2 <- p +ggthemes::theme_calc()+ ggtitle("theme_calc")
+
+p3 <- p +ggthemes::theme_clean()+ ggtitle("theme_clean")
+
+p4 <- p +ggthemes::theme_economist()+ ggtitle("theme_economist")
+
+p5 <- p +ggthemes::theme_economist_white()+ ggtitle("theme_economist_white")
+
+p6 <- p +ggthemes::theme_excel()+ ggtitle("theme_excel")
+
+p7 <- p +ggthemes::theme_excel_new()+ ggtitle("theme_excel_new")
+
+p8 <- p +ggthemes::theme_few()+ ggtitle("theme_few")
+
+p9 <- p +ggthemes::theme_fivethirtyeight()+ ggtitle("theme_fivethirtyeight")
+
+p10 <- p +ggthemes::theme_foundation()+ ggtitle("theme_foundation")
+
+p11 <- p +ggthemes::theme_gdocs()+ ggtitle("theme_gdocs")
+
+p12 <- p +ggthemes::theme_hc()+ ggtitle("theme_hc")
+
+p13 <- p +ggthemes::theme_igray()+ ggtitle("theme_igray")
+
+p14 <- p +ggthemes::theme_map()+ ggtitle("theme_map")
+
+p15 <- p +ggthemes::theme_pander()+ ggtitle("theme_pander")
+
+p16 <- p +ggthemes::theme_par()+ ggtitle("theme_par")
+
+p17 <- p +ggthemes::theme_solarized()+ ggtitle("theme_solarized")
+
+p18 <- p +ggthemes::theme_solarized_2()+ ggtitle("theme_solarized_2")
+
+p19 <- p +ggthemes::theme_solid()+ ggtitle("theme_solid")
+
+p20 <- p +ggthemes::theme_stata()+ ggtitle("theme_stata")
+
+p21 <- p +ggthemes::theme_tufte()+ ggtitle("theme_tufte")
+
+
+p22 <- p +ggthemes::theme_wsj()+ ggtitle("theme_wsj")
+
+
+p1+p2+p3+p4
+p5+p6+p7+p8
+p9+p10+p11+p12
+p13+p14+p15+p16
+p17+p18+p19+p20
+p21+p22
+
+
+
+
+```
+
+
+
+# 图例
+
+
+```{r}
+# Load ggplot2
+library(ggplot2)
+
+# Very basic chart
+basic <- ggplot(mtcars, aes(wt, mpg, colour = factor(cyl), shape = factor(vs) )) +
+       geom_point()
+basic
+```
+
+
+使用labs函数修改图例名称
+
+```{r}
+basic+
+  labs(
+         colour = "name1",
+         shape = "name2"
+        )
+```
+
+
+## 使用guides() 和 theme()修改图例
+
+```{r}
+# Left -> get rid of one part of the legend
+basic + guides(shape=FALSE)
+# Right -> only the x axis is modified
+basic + theme(legend.position = "none")
+```
+
+### 调整位置
+
+legend.position：top, right, bottom, or left
+
+```{r}
+# Left -> legend around the plot
+basic + theme(legend.position = "bottom")
+# Right -> inside the plot area
+basic + theme(
+    legend.position = c(.95, .95),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6)
+    )
+```
+
+
+### 图例外观
+
+legend.box-element_rect()：这是一个框住图例的矩形
+legend.key：关键是显示符号的部分
+legend.text
+legend.title
+
+```{r}
+# custom box around legend
+basic + theme(
+    legend.box.background = element_rect(color="red", size=2),
+    legend.box.margin = margin(116, 6, 6, 6)
+)
+# custom the key
+basic + theme(legend.key = element_rect(fill = "white", colour = "black"))
+# custom the text
+basic + theme(legend.text = element_text(size = 8, colour = "red"))
+# custom the title
+basic + theme(legend.title = element_text(face = "bold"))
+```
+
+
+# 背景
+
+主要通过theme()函数进行修改
+
+```{r}
+# Load ggplot2
+library(ggplot2)
+
+# Very basic chart
+basic <- ggplot( mtcars , aes(x=mpg, y=wt)) +
+  geom_point()
+basic
+```
+
+
+## 背景颜色
+
+plot.background 控制整个图表的颜色和 panel.background控制轴之间的部分
+
+```{r}
+basic + theme(
+    plot.background = element_rect(fill = "green"), 
+    panel.background = element_rect(fill = "red", colour="blue")
+    )
+```
+
+## 自定义网格
+
+panel.grid.major 主要和 panel.grid.minor次要
+
+```{r}
+# Modify for both axis
+basic + theme(
+    panel.grid.major = element_line(colour = "red", linetype = "dotted"),
+    panel.grid.minor = element_line(colour = "blue", size = 2)
+    )
+# Modify y axis only (remove)
+basic + theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank()
+)
+```
+
+
+# 解决中文问题
+
+参考资料：https://r-graph-gallery.com/240-custom-layout-background-ggplot2.html
+```{r}
+var=rnorm(1000)
+
+ 
+p1 <- qplot(var , fill=I(rgb(0.1,0.2,0.4,0.6)) ) + ggtitle("中文标题")+ showtext::showtext.auto()
+p1
+
+```
+
+
+![](/Users/milin/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/米霖微信.jpeg)
