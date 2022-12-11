@@ -92,7 +92,7 @@ enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
   prefix_eventLog <- prefix_eventLog %>% processing_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% throughput_time(level = "case",units = "hours")%>% edeaR::augment(prefix_eventLog)
   # resource
-  #prefix_eventLog <- prefix_eventLog %>% resource_frequency(level = "case")%>% edeaR::augment(prefix_eventLog)
+  prefix_eventLog <- prefix_eventLog %>% resource_frequency(level = "case")%>% edeaR::augment(prefix_eventLog)
   prefix_eventLog <- prefix_eventLog %>% resource_involvement(level = "case")%>% edeaR::augment(prefix_eventLog)
 
 
