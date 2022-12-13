@@ -104,7 +104,7 @@ enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
 #' Analyse event in control-flow perspective, time perspective and resource perspective
 #'
 #' @param eventlog A event log
-#' @param perspective Analysis perspective
+#' @param perspective Analysis perspective, option: control-flow,time and resource
 #' @return A list of result
 #' @examples
 #' x <- eventAnalyse(eventlog = patients,perspective = "time")
