@@ -109,7 +109,9 @@ enrichEventlog <- function(eventLog,prefix_num,mode = "activity"){
 #' @examples
 #' x <- eventAnalyse(eventlog = patients,perspective = "time")
 
-eventAnalyse <- function(eventlog,perspective=c("controlflow","time","resource")){
+eventAnalyse <- function(eventlog,
+                         perspective=c("controlflow","time","resource"),
+                         coverage.p=0.2){
   require(bupaR)
   require(dplyr)
   if(any(perspective=="controlflow")){
@@ -208,7 +210,7 @@ eventAnalyse <- function(eventlog,perspective=c("controlflow","time","resource")
                 "activity frequency"=x.28)
 
     p.1 <- process_map(log = eventlog)
-    p.2 <- trace_explorer(log = eventlog,coverage = 0.2)
+    p.2 <- trace_explorer(log = eventlog,coverage = coverage.p)
 
     x.29 <- process_matrix(eventlog)
     p.3 <- plot(process_matrix(eventlog))
