@@ -216,7 +216,7 @@ eventAnalyse <- function(eventlog,perspective=c("controlflow","time","resource")
     y.8 <- list("process map"=p.1,
                 "trace explorer"=p.2,
                 "precedence matrix"=x.29,
-                "precedence matrix plot")
+                "precedence matrix plot"=p.3)
 
     result <- list("start activity"=y.1,"end activity"=y.2,"trace coverage"=y.3,"trace length"=y.4,"repetitions"=y.5,"selfloops"=y.6,"actiivity presence"=y.7,"visualization"=y.8)
 
