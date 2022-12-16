@@ -21,7 +21,7 @@
 #' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
 
 lastStateEncoding <- function(prefix_eventLog){
-  pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+  #pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
   require(bupaR)
   require(dplyr)
   encoding_envetlog <- prefix_eventLog %>% group_by_case() %>% last_n(1)
@@ -54,7 +54,7 @@ lastStateEncoding <- function(prefix_eventLog){
 #' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,Window=3)
 
 lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
-  pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+  #pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
   require(dplyr)
   require(bupaR)
 
@@ -81,7 +81,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
     event_data <- encoding_envetlog %>% select(EventMap[["case_identifier"]],EventMap[["activity_identifier"]],EventMap[["timestamp_identifier"]],EventMap[["resource_identifier"]])
 
     for(i in 1:Window){
-      event_data_1 <- event_data %>% group_by(across(all_of(EventMap[["case_identifier"]]))) %>% slice(i)
+      event_data_1 <- event_data %>% group_by(across(all_of(EventMap[["case_identifier"]]))) %>% dplyr::slice(i)
 
       new <- c(paste(EventMap[["activity_identifier"]],i,sep = "_"),
                paste(EventMap[["timestamp_identifier"]],i,sep = "_"),
@@ -109,7 +109,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
     event_data <- encoding_envetlog %>% select(EventMap[["case_identifier"]],EventMap[["activity_identifier"]],EventMap[["timestamp_identifier"]],EventMap[["resource_identifier"]])
 
     for(i in 1:Window){
-      event_data_1 <- event_data %>% group_by(across(all_of(EventMap[["case_identifier"]]))) %>% slice(i)
+      event_data_1 <- event_data %>% group_by(across(all_of(EventMap[["case_identifier"]]))) %>% dplyr::slice(i)
 
       new <- c(paste(EventMap[["activity_identifier"]],i,sep = "_"),
                paste(EventMap[["timestamp_identifier"]],i,sep = "_"),
@@ -157,7 +157,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 #' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata)
 
 aggregation_encoding <-  function(prefix_eventLog){
-  pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+  #pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
   require(caret)
   require(bupaR)
   require(dplyr)
@@ -206,7 +206,7 @@ aggregation_encoding <-  function(prefix_eventLog){
   result <- newdata %>% left_join(other_data,by="case_id") %>%
     left_join((encoding_envetlog %>% select(Map[["case_identifier"]],predicate)),by = c("case_id" = Map[["case_identifier"]]))
 
-  return(list("one hot rule"=dummy,"encoding event log"=unique(result)))
+  return(list("one hot rule"=dummy,"encoding event log"=(result)))
 
 }
 
