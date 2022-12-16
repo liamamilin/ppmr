@@ -200,7 +200,7 @@ aggregation_encoding <-  function(prefix_eventLog){
   result <- newdata %>% left_join(other_data,by="case_id") %>%
     left_join((encoding_envetlog %>% select(Map[["case_identifier"]],predicate)),by = c("case_id" = Map[["case_identifier"]]))
 
-  return(list(dummy,unique(result)))
+  return(list("one hot rule"=dummy,"encoding event log"=unique(result)))
 
 }
 
