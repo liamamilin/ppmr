@@ -185,7 +185,8 @@ aggregation_encoding <-  function(prefix_eventLog){
 
   dummy <- dummyVars(formu, data=traceData)
   newdata <- data.frame(predict(dummy, newdata = traceData))
-  newdata <- newdata %>% mutate(case_id = traceData[,1])
+  newdata <- newdata %>% mutate(case_id = encoding_envetlog %>% select(Map[["case_identifier"]]) %>% pull())
+  #newdata1 <- newdata %>% mutate(case_id = traceData[,1])
   newdata <- newdata %>% group_by(case_id) %>% summarise_all(sum)
 
   other_data <- encoding_envetlog %>% select(-Map[["activity_identifier"]],
@@ -206,7 +207,9 @@ aggregation_encoding <-  function(prefix_eventLog){
   result <- newdata %>% left_join(other_data,by="case_id") %>%
     left_join((encoding_envetlog %>% select(Map[["case_identifier"]],predicate)),by = c("case_id" = Map[["case_identifier"]]))
 
-  return(list("one hot rule"=dummy,"encoding event log"=(result)))
+  return(list("one hot rule"=dummy,"encoding event log"=unique(result)))
 
 }
 
+
+enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = sepsisAc)
