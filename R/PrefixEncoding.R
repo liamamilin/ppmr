@@ -211,5 +211,3 @@ aggregation_encoding <-  function(prefix_eventLog){
 
 }
 
-
-enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = sepsisAc)
