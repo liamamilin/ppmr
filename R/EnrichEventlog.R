@@ -47,14 +47,14 @@ createProcessIndicatorsWithPrefix <- function(eventLog,prefix_num = 5,mode="acti
   }else if(mode == "duration"){
     label <- eventLog  %>% throughput_time(level = "case",units = "hours")
     label <- rename(label,predicate = throughput_time)
-
+    label$throughput_time <- as.numeric(label$throughput_time)
   }
   emap <- mapping(eventLog)
   case_id <- eventLog %>% case_id()
 
   eventLog_prefix <- eventLog %>% group_by(across(all_of(case_id))) %>% first_n(prefix_num) %>% ungroup_eventlog()
   eventLog_prefix <- eventLog_prefix %>% left_join(label,by = case_id)
-  eventLog_prefix$predicate <- as.numeric(eventLog_prefix$predicate)
+
   return(eventLog_prefix)
 }
 
