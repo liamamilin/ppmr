@@ -177,9 +177,11 @@ aggregation_encoding <-  function(prefix_eventLog){
 
 
   traceData <- encoding_envetlog %>%
-    select(Map[["case_identifier"]],
-           Map[["activity_identifier"]],where(is.factor)) %>% select(-predicate,-Map[["lifecycle_identifier"]])
-  formu <- formula(paste("~",Map[["activity_identifier"]],sep=""))
+    select(where(is.factor)) %>% select(-predicate,
+                                        -Map[["lifecycle_identifier"]],
+                                        -Map[["case_identifier"]],
+                                        -Map[["activity_instance_identifier"]])
+  formu <- formula(paste("~.",sep=""))
 
   dummy <- dummyVars(formu, data=traceData)
   newdata <- data.frame(predict(dummy, newdata = traceData))
@@ -191,6 +193,10 @@ aggregation_encoding <-  function(prefix_eventLog){
                                              -Map[["lifecycle_identifier"]],
                                              -Map[["timestamp_identifier"]]
                                              )
+  other_data$idle_time <- as.numeric(other_data$idle_time)
+  other_data$processing_time <- as.numeric(other_data$processing_time)
+  other_data$throughput_time <- as.numeric(other_data$throughput_time)
+
   other_data <-  other_data %>%
     group_by(across(all_of(Map[["case_identifier"]]))) %>%
     summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
