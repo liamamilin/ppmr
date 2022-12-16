@@ -21,6 +21,7 @@
 #' enrichEventlogEncoding <- lastStateEncoding(prefix_eventLog = eventdata)
 
 lastStateEncoding <- function(prefix_eventLog){
+  rm(list = ls())
   require(bupaR)
   require(dplyr)
   encoding_envetlog <- prefix_eventLog %>% group_by_case() %>% last_n(1)
@@ -53,6 +54,7 @@ lastStateEncoding <- function(prefix_eventLog){
 #' enrichEventlogEncoding <- lastNStateIndexBasedEncoding(prefix_eventLog = eventdata,Window=3)
 
 lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
+  rm(list = ls())
   require(dplyr)
   require(bupaR)
 
@@ -155,6 +157,7 @@ lastNStateIndexBasedEncoding <- function(prefix_eventLog,Window=3){
 #' enrichEventlogEncoding <- aggregation_encoding(prefix_eventLog = eventdata)
 
 aggregation_encoding <-  function(prefix_eventLog){
+  rm(list = ls())
   require(caret)
   require(bupaR)
   require(dplyr)
