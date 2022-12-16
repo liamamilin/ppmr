@@ -29,5 +29,6 @@ Imports:
     stringdist,
     DALEXtra,
     ingredients,
-    iBreakDown
+    iBreakDown,
+    pacman
 RoxygenNote: 7.2.2
