@@ -192,7 +192,8 @@ aggregation_encoding <-  function(prefix_eventLog){
   other_data <- encoding_envetlog %>% select(-Map[["activity_identifier"]],
                                              -Map[["activity_instance_identifier"]],
                                              -Map[["lifecycle_identifier"]],
-                                             -Map[["timestamp_identifier"]]
+                                             -Map[["timestamp_identifier"]],
+                                             -predicate
                                              )
   other_data$idle_time <- as.numeric(other_data$idle_time)
   other_data$processing_time <- as.numeric(other_data$processing_time)
