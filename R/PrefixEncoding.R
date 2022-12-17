@@ -176,11 +176,11 @@ aggregation_encoding <-  function(prefix_eventLog){
 
 
 
-  traceData <- encoding_envetlog %>%
-    select(where(is.factor)) %>% select(-predicate,
+  traceData <- encoding_envetlog %>% select(-predicate,
                                         -Map[["lifecycle_identifier"]],
                                         -Map[["case_identifier"]],
-                                        -Map[["activity_instance_identifier"]])
+                                        -Map[["activity_instance_identifier"]])%>%
+    select(where(is.factor))
   formu <- formula(paste("~.",sep=""))
 
   dummy <- dummyVars(formu, data=traceData)
