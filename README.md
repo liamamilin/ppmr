@@ -1,8 +1,9 @@
 # ppmr
 
-Predictive business process monitoring methods exploit historical process execution logs to generate predic- tions about running instances (called cases) of a business process, such as the prediction of the outcome, next activity, or remaining cycle time of a given process case. 
+Predictive business process monitoring methods exploit historical process execution logs to generate predictions about running instances (called cases) of a business process, such as the prediction of the outcome, following activity, or remaining cycle time of a given process case. 
 
-This R packages support A series of function  about Predictive process monitoring.
+This package depends on bupaR and defines a general framework of predictive process monitoring also provide people with a tool to solve predictive process mining.
+
 
 # install packages
 
